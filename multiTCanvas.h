@@ -122,15 +122,15 @@ void multiTCanvas::DrawAll(queue<T*> in){
     in=temp;
   }
   this->Draw();
-  int iPad=1;
+  int iPad=0;
   while (!in.empty())
   {
     try{
       this->cd(iPad);
     }
-    catch(OutofBoundsException<TCanvas>& e){
+    catch(exception& e){
      // cout<<"here->"<<endl;
-      cout<<e.what()<<", "<<e.getError()<<endl;
+      cout<<e.what()<<endl;
     }
     in.front()->DrawCopy();
     in.pop();
@@ -144,14 +144,15 @@ void multiTCanvas::cd(int i)
   if(i < 1 || i > npanel||!initialized)
   {
     string error;
+    string where = to_string(__LINE__) +" in "+__FILE__;
     if (!initialized)
     {
-      error = "unitialized canvas call Draw() before cd()"
+      error = "unitialized canvas call Draw() before cd()";
     }
     else{
-      error = string(c->GetName());
+      error = "Out of bounds in "+string(c->GetName())+" given "+std::to_string(i)+" max is "+std::to_string(npanel);
     }
-    OutofBoundsException<TCanvas> myException(error,npanel,i);
+    OutofBoundsException<TCanvas> myException(error,where);
     if (i<1)
     {
       pads[1]->cd();

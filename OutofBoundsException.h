@@ -1,16 +1,13 @@
 #include <exception>
 template<class T>
-class OutofBoundsException :public exception
+class OutofBoundsException :public std::logic_error
 {
 public:
-	OutofBoundsException(std::string name, int max, int given){
-		this->name = name;
-		this->max = max;
-		this->given = given;
-	}
-	~OutofBoundsException(){
-	}
-	const char* what() const throw(){
+	OutofBoundsException(std::string name, std::string where): std::logic_error(name+" at line"+where)
+	{}
+	/*~OutofBoundsException(){
+	}*/
+	/*const char* what() const throw(){
 		std::string temp;
 		temp ="Out of bounds in "+name+" max value is "+std::to_string(max)+" given "+(std::to_string(given));
 		/*char * writable = new char[temp.size() + 1];
@@ -18,18 +15,19 @@ public:
 		writable[temp.size()] = '\0';*/
 		
 		/*const char* r= new char[temp.size()];
-		*r = temp.c_str();*/
+		*r = temp.c_str();
 		return temp.c_str(); // This prly needs to be dynamic but I cannot figure out how to do that 
 	}
 	std::string getError(){
 		std::string temp;
 		temp ="Out of bounds in "+name+" max value is "+std::to_string(max)+" given "+(std::to_string(given));
 		return temp;
-	}
-	
+	}*/
+/*	
 private:
 	std::string name;
+	std::string where;
 	int max;
-	int given;
+	int given;*/
 
 };
